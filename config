@@ -1,4 +1,23 @@
-ngx_addon_name=ngx_http_statsd
-HTTP_MODULES="$HTTP_MODULES ngx_http_statsd_module"
-NGX_ADDON_SRCS="$NGX_ADDON_SRCS $ngx_addon_dir/ngx_http_statsd.c"
-CORE_LIBS="$CORE_LIBS -lssl"
+ngx_addon_name=ngx_http_statsd_module
+
+ngx_feature_libs="-lssl"
+
+_HTTP_STATSD_SRCS="\
+  $ngx_addon_dir/${ngx_addon_name}.c \
+"
+
+have=NGX_HTTP_STATSD . auto/have
+
+if test -n "$ngx_module_link"; then
+  ngx_module_type=HTTP
+  ngx_module_name=$ngx_addon_name
+  ngx_module_srcs="$_HTTP_STATSD_SRCS"
+  ngx_module_libs=$ngx_feature_libs
+  . auto/module
+else
+  NGX_ADDON_SRCS="$NGX_ADDON_SRCS $_HTTP_STATSD_SRCS"
+  CORE_LIBS="$CORE_LIBS $ngx_feature_libs"
+  CORE_INCS="$CORE_INCS $ngx_module_incs"
+  HTTP_MODULES="$HTTP_MODULES $ngx_addon_name"
+fi
+

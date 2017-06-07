@@ -663,7 +663,7 @@ ngx_http_statsd_add_timing(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 }
 
 static char *
-ngx_http_statsd_add_timing(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
+ngx_http_statsd_add_gauge(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 {
 	return ngx_http_statsd_add_stat(cf, cmd, conf, STATSD_TYPE_GAUGE);
 }
